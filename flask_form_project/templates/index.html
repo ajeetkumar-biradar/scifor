@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <style>
+        .user-image {
+            width: 50px; /* Set the width as per your requirement */
+            height: 50px; /* Set the height as per your requirement */
+            object-fit: cover; /* Maintain aspect ratio and cover the entire area */
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>User List</h1>
+        <a href="/add" class="btn btn-primary mb-3">Add New User</a>
+        <table id="userTable" class="display table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Serial Number</th>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Mobile Number</th>
+                    <th>Email</th>
+                    <th>Identity ID</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td><img src="{{ url_for('static', filename='uploads/' + user.image) }}" alt="Image" width="50"></td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.mobile_number }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.identity_id }}</td>
+                <td>
+                    <a href="{{ url_for('edit', id=user.id) }}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{{ url_for('delete', id=user.id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- DataTables JS -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#userTable').DataTable({
+                "pageLength": 10
+            });
+        });
+    </script>
+</body>
+</html>
